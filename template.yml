@@ -9,7 +9,7 @@ Resources:
     Properties:
       BucketName: !Sub ${AWS::StackName}-s3-bucket
       VersioningConfiguration:
-        Status: Enabled
+        Status: Disabled
       CorsConfiguration:
         CorsRules:
           - AllowedHeaders:
