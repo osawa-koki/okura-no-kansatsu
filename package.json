@@ -12,7 +12,8 @@
     "yarn": ">=1.22.0"
   },
   "scripts": {
-    "dev": "node ./src/dev.js"
+    "dev": "node ./src/dev.js",
+    "build": "esbuild ./src/index.ts --bundle --platform=browser --outfile=./public/index.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.554.0",

@@ -19,7 +19,7 @@ server.listen(PORT, () => {
 
 esbuild.context({
   entryPoints: ['./src/index.ts'],
-  outfile: './public/script.js',
+  outfile: './public/index.js',
   bundle: true,
   minify: false,
   sourcemap: true,
