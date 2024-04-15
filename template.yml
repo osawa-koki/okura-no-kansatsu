@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "🌱🌱🌱 オクラの観察！"
+
+Resources:
+  # S3バケット
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-s3-bucket
+      VersioningConfiguration:
+        Status: Enabled
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - "*"
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - HEAD
+            AllowedOrigins:
+              - "*"
+            MaxAge: 3000
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-s3-bucket"
+
+Outputs:
+  S3BucketName:
+    Description: "S3バケット名。"
+    Value: !Ref S3Bucket
+  S3BucketDomainName:
+    Description: "S3バケットエンドポイント。"
+    Value: !GetAtt S3Bucket.DomainName
