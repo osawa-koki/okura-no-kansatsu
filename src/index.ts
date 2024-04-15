@@ -1,7 +1,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
 import './reloader'
-import { button, getBucketName, getCredentials, getHeight, getWidth, takePhotoButton, video } from './element'
+import { button, getBucketName, getCredentials, getHeight, getInterval, getWidth, takePhotoButton, video } from './element'
 import { toast } from './util'
 
 let s3: S3Client | null = null
@@ -38,7 +38,7 @@ const startCamera = (): void => {
 
         const prevPhotoTakenAt = photoTakenAt
         const now = new Date()
-        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < 10 * 60 * 1000) return
+        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < getInterval()) return
 
         photoTakenAt = now
 
@@ -87,9 +87,11 @@ const endCamera = (): void => {
 button.addEventListener('click', () => {
   if (mediaRecorder != null) {
     button.textContent = 'Start'
+    takePhotoButton.disabled = true
     endCamera()
   } else {
     button.textContent = 'Stop'
+    takePhotoButton.disabled = false
     startCamera()
   }
 })

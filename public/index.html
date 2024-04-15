@@ -20,18 +20,33 @@
 </head>
 <body>
   <h1 class="my-3 text-center">🌱🌱🌱 オクラの観察</h1>
-  <input id="access-key-id" class="form-control d-block my-2" type="text" placeholder="Access Key ID" />
-  <input id="secret-access-key" class="form-control d-block my-2" type="password" placeholder="Secret Access Key" />
-  <input id="bucket-name" class="form-control d-block my-2" type="text" placeholder="Bucket Name" />
-  <hr>
   <div class="d-flex justify-content-center align-items-center">
     <button id="button" class="btn btn-primary d-block my-2 mx-auto">Start</button>
-    <button id="take-photo" class="btn btn-info d-block my-2 mx-auto">Take Photo</button>
+    <button id="take-photo" class="btn btn-info d-block my-2 mx-auto" disabled>Take Photo</button>
   </div>
   <video id="video" class="border d-block w-100 my-2 mx-auto" autoplay muted playsinline></video>
   <hr>
-  <input id="width" class="form-control d-block my-2" type="number" placeholder="Width" value="450" />
-  <input id="height" class="form-control d-block my-2" type="number" placeholder="Height" value="300" />
+  <label for="width" class="form-label d-block">Width</label>
+  <input id="width" class="form-control d-block mb-2" type="number" placeholder="Width" value="450" />
+  <label for="height" class="form-label d-block">Height</label>
+  <input id="height" class="form-control d-block mb-2" type="number" placeholder="Height" value="300" />
+  <label for="interval" class="form-label d-block">Interval</label>
+  <select id="interval" class="form-select d-block mb-2">
+    <option value="1000">1秒</option>
+    <option value="10000">10秒</option>
+    <option value="60000">1分</option>
+    <option value="600000" selected>10分</option>
+    <option value="3600000">1時間</option>
+  </select>
+
+  <hr>
+
+  <label for="access-key-id" class="form-label d-block">Access Key ID</label>
+  <input id="access-key-id" class="form-control d-block mb-2" type="text" placeholder="Access Key ID" />
+  <label for="secret-access-key" class="form-label d-block">Secret Access Key</label>
+  <input id="secret-access-key" class="form-control d-block mb-2" type="password" placeholder="Secret Access Key" />
+  <label for="bucket-name" class="form-label d-block">Bucket Name</label>
+  <input id="bucket-name" class="form-control d-block mb-2" type="text" placeholder="Bucket Name" />
 
   <div id="toast" class="toast" style="display: none;"></div>
 
