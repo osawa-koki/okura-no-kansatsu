@@ -2,6 +2,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
 import './reloader'
 import { button, getBucketName, getCredentials, getHeight, getWidth, takePhotoButton, video } from './element'
+import { toast } from './util'
 
 let s3: S3Client | null = null
 
@@ -57,10 +58,11 @@ const startCamera = (): void => {
           })
           s3?.send(putObjectCommand)
             .then((data) => {
-              console.log(data)
+              toast('Sent!', 300)
             })
             .catch((err) => {
-              console.error(err)
+              console.error(err.toString())
+              toast('Failed to send!', 1000)
             })
         }, 'image/png')
       })

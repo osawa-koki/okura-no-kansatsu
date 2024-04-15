@@ -62,3 +62,5 @@ export function getWidth() {
 export function getHeight() {
   return parseInt(heightInput.value)
 }
+
+export const toastElement = document.getElementById('toast')! as HTMLDivElement
