@@ -44,5 +44,15 @@ Default output format [None]: json
 ```shell
 aws cloudformation deploy \
     --stack-name okura-no-kansatsu \
-    --template ./template.yml
+    --template ./template.yml \
+    --capabilities CAPABILITY_NAMED_IAM
+```
+
+削除するには、以下のコマンドを実行します。
+
+```shell
+aws cloudformation delete-stack --stack-name <stack-name>
+
+# 例)
+aws cloudformation delete-stack --stack-name okura-no-kansatsu
 ```

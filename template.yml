@@ -27,6 +27,22 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-s3-bucket"
 
+  # S3バケットを操作するためのIAMユーザ
+  S3BucketUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub ${AWS::StackName}-s3-bucket-user
+      Path: /
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}-s3-bucket-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource: !Sub "arn:aws:s3:::${S3Bucket}/*"
+
 Outputs:
   S3BucketName:
     Description: "S3バケット名。"
