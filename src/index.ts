@@ -1,23 +1,10 @@
-let savedData: string | null = null
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
-setInterval(() => {
-  const script = document.querySelector('script')
-  const scriptUrl = script?.getAttribute('src')!
-  fetch(scriptUrl)
-    .then((response) => response.text())
-    .then((newData) => {
-      const prevData = savedData
-      savedData = newData
-      if (prevData === newData) {
-        console.log('Script not changed!')
-        return
-      }
-      if (prevData != null) window.location.reload()
-    })
-    .catch((error) => console.error('Error:', error))
-}, 1000)
+import './reloader'
+import { getBucketName, getCredentials } from './input'
+import { HEIGHT, WIDTH } from './const'
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+let s3: S3Client | null = null
 
 let photoTakenAt: Date | null = null
 
@@ -27,12 +14,18 @@ const video = document.getElementById('video')! as HTMLVideoElement
 let mediaRecorder: MediaRecorder | null = null
 
 const startCamera = (): void => {
+  s3 = new S3Client({
+    region: 'ap-northeast-1',
+    credentials: getCredentials()
+  })
+  video.width = WIDTH
+  video.height = HEIGHT
   navigator.mediaDevices.getUserMedia({
     audio: false,
     video: {
-      width: 400,
-      height: 300,
-      facingMode: 'environment'
+      width: WIDTH,
+      height: HEIGHT,
+      facingMode: 'user'
     }
   })
     .then((mediaStream) => {
@@ -56,9 +49,21 @@ const startCamera = (): void => {
         canvas.height = video.videoHeight
         const context = canvas.getContext('2d')!
         context.drawImage(video, 0, 0, canvas.width, canvas.height)
-        const photo = document.createElement('img')
-        photo.src = canvas.toDataURL('image/png')
-        document.body.appendChild(photo)
+
+        canvas.toBlob((blob) => {
+          const putObjectCommand = new PutObjectCommand({
+            Bucket: getBucketName(),
+            Key: `${now.getTime()}.png`,
+            Body: blob
+          })
+          s3?.send(putObjectCommand)
+            .then((data) => {
+              console.log(data)
+            })
+            .catch((err) => {
+              console.error(err)
+            })
+        }, 'image/png')
       })
 
       mediaRecorder.start(1000)
@@ -87,5 +92,3 @@ button.addEventListener('click', () => {
     startCamera()
   }
 })
-
-/* eslint-enable @typescript-eslint/no-non-null-assertion */
