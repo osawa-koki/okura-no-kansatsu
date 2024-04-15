@@ -14,7 +14,9 @@
   "scripts": {
     "dev": "http-server ./public -p 8000"
   },
-  "dependencies": {},
+  "dependencies": {
+    "typescript": "^5.4.5"
+  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }
