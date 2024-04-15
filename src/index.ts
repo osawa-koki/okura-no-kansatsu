@@ -38,7 +38,7 @@ const startCamera = (): void => {
 
         const prevPhotoTakenAt = photoTakenAt
         const now = new Date()
-        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < 3000) return
+        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < 60 * 1000) return
 
         photoTakenAt = now
 
