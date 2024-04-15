@@ -19,10 +19,11 @@ setInterval(() => {
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+let photoTakenAt: Date | null = null
+
 const button = document.getElementById('button')! as HTMLButtonElement
 const video = document.getElementById('video')! as HTMLVideoElement
 
-const chunks: Blob[] = []
 let mediaRecorder: MediaRecorder | null = null
 
 const startCamera = (): void => {
@@ -40,12 +41,27 @@ const startCamera = (): void => {
       mediaRecorder = new MediaRecorder(mediaStream)
 
       mediaRecorder.addEventListener('dataavailable', (event) => {
-        if (event.data.size > 0) {
-          chunks.push(event.data)
-        }
+        if (event.data.size === 0) return
+
+        const prevPhotoTakenAt = photoTakenAt
+        const now = new Date()
+        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < 3000) return
+
+        photoTakenAt = now
+
+        console.log('Take a photo!')
+
+        const canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+        const context = canvas.getContext('2d')!
+        context.drawImage(video, 0, 0, canvas.width, canvas.height)
+        const photo = document.createElement('img')
+        photo.src = canvas.toDataURL('image/png')
+        document.body.appendChild(photo)
       })
 
-      mediaRecorder.start(100)
+      mediaRecorder.start(1000)
 
       mediaRecorder.addEventListener('stop', () => {
         mediaRecorder = null
@@ -66,14 +82,6 @@ button.addEventListener('click', () => {
   if (mediaRecorder != null) {
     button.value = 'Start'
     endCamera()
-
-    const blob = new Blob(chunks, { type: 'video/webm' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'video.webm'
-    a.click()
-    chunks.length = 0
   } else {
     button.value = 'Stop'
     startCamera()
