@@ -25,7 +25,7 @@ const startCamera = (): void => {
     video: {
       width: WIDTH,
       height: HEIGHT,
-      facingMode: 'user'
+      facingMode: 'environment'
     }
   })
     .then((mediaStream) => {
