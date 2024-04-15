@@ -1,0 +1,10 @@
+{
+  "name": "okura-no-kansatsu",
+  "version": "1.0.0",
+  "description": "🌱🌱🌱 オクラの観察",
+  "main": "./src/index.ts",
+  "repository": "https://github.com/osawa-koki/okura-no-kansatsu.git",
+  "author": "osawa-koki <koki@osawa.dev>",
+  "license": "Apache-2.0",
+  "private": true
+}
