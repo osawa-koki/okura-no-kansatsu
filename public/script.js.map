@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../src/index.ts"],
-  "sourcesContent": ["let savedData: string | null = null\n\nsetInterval(() => {\n  const script = document.querySelector('script')\n  const scriptUrl = script?.getAttribute('src')!\n  fetch(scriptUrl)\n    .then((response) => response.text())\n    .then((newData) => {\n      const prevData = savedData\n      savedData = newData\n      if (prevData === newData) {\n        console.log('Script not changed!')\n        return\n      }\n      if (prevData != null) window.location.reload()\n    })\n    .catch((error) => console.error('Error:', error))\n}, 1000)\n"],
-  "mappings": ";;;AAAA,MAAI,YAA2B;AAE/B,cAAY,MAAM;AAChB,UAAM,SAAS,SAAS,cAAc,QAAQ;AAC9C,UAAM,YAAY,QAAQ,aAAa,KAAK;AAC5C,UAAM,SAAS,EACZ,KAAK,CAAC,aAAa,SAAS,KAAK,CAAC,EAClC,KAAK,CAAC,YAAY;AACjB,YAAM,WAAW;AACjB,kBAAY;AACZ,UAAI,aAAa,SAAS;AACxB,gBAAQ,IAAI,qBAAqB;AACjC;AAAA,MACF;AACA,UAAI,YAAY;AAAM,eAAO,SAAS,OAAO;AAAA,IAC/C,CAAC,EACA,MAAM,CAAC,UAAU,QAAQ,MAAM,UAAU,KAAK,CAAC;AAAA,EACpD,GAAG,GAAI;",
-  "names": []
-}
