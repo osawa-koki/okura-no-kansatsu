@@ -7,15 +7,49 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <title>🌱🌱🌱 オクラの観察</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <style>
+    .toast {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100px;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
   <h1 class="my-3 text-center">🌱🌱🌱 オクラの観察</h1>
-  <input id="access-key-id" class="form-control d-block my-2" type="text" placeholder="Access Key ID">
-  <input id="secret-access-key" class="form-control d-block my-2" type="password" placeholder="Secret Access Key">
-  <input id="bucket-name" class="form-control d-block my-2" type="text" placeholder="Bucket Name">
+  <div class="d-flex justify-content-center align-items-center">
+    <button id="button" class="btn btn-primary d-block my-2 mx-auto">Start</button>
+    <button id="take-photo" class="btn btn-info d-block my-2 mx-auto" disabled>Take Photo</button>
+  </div>
+  <video id="video" class="border d-block w-100 my-2 mx-auto" autoplay muted playsinline></video>
   <hr>
-  <input id="button" class="btn btn-primary d-block my-2 mx-auto" type="button" value="Start">
-  <video id="video" class="border d-block w-100 my-5 mx-auto" autoplay muted playsinline></video>
+  <label for="width" class="form-label d-block">Width</label>
+  <input id="width" class="form-control d-block mb-2" type="number" placeholder="Width" value="450" />
+  <label for="height" class="form-label d-block">Height</label>
+  <input id="height" class="form-control d-block mb-2" type="number" placeholder="Height" value="300" />
+  <label for="interval" class="form-label d-block">Interval</label>
+  <select id="interval" class="form-select d-block mb-2">
+    <option value="1000">1秒</option>
+    <option value="10000">10秒</option>
+    <option value="60000">1分</option>
+    <option value="600000" selected>10分</option>
+    <option value="3600000">1時間</option>
+  </select>
+
+  <hr>
+
+  <label for="access-key-id" class="form-label d-block">Access Key ID</label>
+  <input id="access-key-id" class="form-control d-block mb-2" type="text" placeholder="Access Key ID" />
+  <label for="secret-access-key" class="form-label d-block">Secret Access Key</label>
+  <input id="secret-access-key" class="form-control d-block mb-2" type="password" placeholder="Secret Access Key" />
+  <label for="bucket-name" class="form-label d-block">Bucket Name</label>
+  <input id="bucket-name" class="form-control d-block mb-2" type="text" placeholder="Bucket Name" />
+
+  <div id="toast" class="toast" style="display: none;"></div>
+
   <script src="/index.js"></script>
 </body>
 </html>

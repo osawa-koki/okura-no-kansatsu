@@ -1,15 +1,12 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
 import './reloader'
-import { getBucketName, getCredentials } from './input'
-import { HEIGHT, WIDTH } from './const'
+import { button, getBucketName, getCredentials, getHeight, getInterval, getWidth, takePhotoButton, video } from './element'
+import { toast } from './util'
 
 let s3: S3Client | null = null
 
 let photoTakenAt: Date | null = null
-
-const button = document.getElementById('button')! as HTMLButtonElement
-const video = document.getElementById('video')! as HTMLVideoElement
 
 let mediaRecorder: MediaRecorder | null = null
 
@@ -18,14 +15,17 @@ const startCamera = (): void => {
     region: 'ap-northeast-1',
     credentials: getCredentials()
   })
-  video.width = WIDTH
-  video.height = HEIGHT
+  const width = getWidth()
+  const height = getHeight()
+  video.width = width
+  video.height = height
   navigator.mediaDevices.getUserMedia({
     audio: false,
     video: {
-      width: WIDTH,
-      height: HEIGHT,
-      facingMode: { exact: 'environment' }
+      width: width,
+      height: height,
+      // PC: localStorage.setItem('facingMode', 'user')
+      facingMode: localStorage.getItem('facingMode') ?? { exact: 'environment' }
     }
   })
     .then((mediaStream) => {
@@ -38,7 +38,7 @@ const startCamera = (): void => {
 
         const prevPhotoTakenAt = photoTakenAt
         const now = new Date()
-        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < 10 * 60 * 1000) return
+        if (prevPhotoTakenAt != null && now.getTime() - prevPhotoTakenAt.getTime() < getInterval()) return
 
         photoTakenAt = now
 
@@ -58,10 +58,11 @@ const startCamera = (): void => {
           })
           s3?.send(putObjectCommand)
             .then((data) => {
-              console.log(data)
+              toast('Sent!', 300)
             })
             .catch((err) => {
-              console.error(err)
+              console.error(err.toString())
+              toast('Failed to send!', 1000)
             })
         }, 'image/png')
       })
@@ -85,10 +86,18 @@ const endCamera = (): void => {
 
 button.addEventListener('click', () => {
   if (mediaRecorder != null) {
-    button.value = 'Start'
+    button.textContent = 'Start'
+    takePhotoButton.disabled = true
     endCamera()
   } else {
-    button.value = 'Stop'
+    button.textContent = 'Stop'
+    takePhotoButton.disabled = false
     startCamera()
   }
+})
+
+takePhotoButton.addEventListener('click', () => {
+  if (mediaRecorder == null) return
+  photoTakenAt = null
+  mediaRecorder.requestData()
 })
