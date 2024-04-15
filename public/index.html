@@ -10,12 +10,18 @@
 </head>
 <body>
   <h1 class="my-3 text-center">🌱🌱🌱 オクラの観察</h1>
-  <input id="access-key-id" class="form-control d-block my-2" type="text" placeholder="Access Key ID">
-  <input id="secret-access-key" class="form-control d-block my-2" type="password" placeholder="Secret Access Key">
-  <input id="bucket-name" class="form-control d-block my-2" type="text" placeholder="Bucket Name">
+  <input id="access-key-id" class="form-control d-block my-2" type="text" placeholder="Access Key ID" />
+  <input id="secret-access-key" class="form-control d-block my-2" type="password" placeholder="Secret Access Key" />
+  <input id="bucket-name" class="form-control d-block my-2" type="text" placeholder="Bucket Name" />
   <hr>
-  <input id="button" class="btn btn-primary d-block my-2 mx-auto" type="button" value="Start">
-  <video id="video" class="border d-block w-100 my-5 mx-auto" autoplay muted playsinline></video>
+  <div class="d-flex justify-content-center align-items-center">
+    <button id="button" class="btn btn-primary d-block my-2 mx-auto">Start</button>
+    <button id="take-photo" class="btn btn-info d-block my-2 mx-auto">Take Photo</button>
+  </div>
+  <video id="video" class="border d-block w-100 my-2 mx-auto" autoplay muted playsinline></video>
+  <hr>
+  <input id="width" class="form-control d-block my-2" type="number" placeholder="Width" value="640" />
+  <input id="height" class="form-control d-block my-2" type="number" placeholder="Height" value="480" />
   <script src="/index.js"></script>
 </body>
 </html>
