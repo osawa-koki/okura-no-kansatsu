@@ -33,3 +33,20 @@ for content in response['Contents']:
 
 # GIF作成
 images[0].save(file_name, save_all=True, append_images=images[1:], duration=100, loop=0)
+
+# =====
+
+from slack_sdk import WebClient
+
+SLACK_API_TOKEN = os.getenv('SLACK_API_TOKEN')
+SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
+
+slack_web_client = WebClient(token=SLACK_API_TOKEN)
+
+title = '@channel\n家庭菜園の成長記録だよ〜 🌱🌱🌱'
+
+response = slack_web_client.files_upload_v2(
+    channels=SLACK_CHANNEL,
+    file=file_name,
+    initial_comment=title
+)
